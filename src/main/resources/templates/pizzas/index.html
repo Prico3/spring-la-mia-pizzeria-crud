@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
 </head>
 <body>
 <h1>Pizzas</h1>
 <table>
-    <tr th:each="pizza : ${list}">
+    <thead>
+    <th>Nome</th>
+    <th>Descrizione</th>
+    <th>Prezzo</th>
+    </thead>
+
+    <tbody>
+    <tr th:each="pizza : ${list}" th:object="${pizza}">
         <td th:text="*{name}"></td>
         <td th:text="*{description}"></td>
         <td th:text="*{price}"></td>
-
-
     </tr>
+    </tbody>
+
 </table>
 </body>
 </html>
