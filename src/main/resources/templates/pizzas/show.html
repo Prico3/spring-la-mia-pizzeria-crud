@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+    <title>Pizza detail</title>
+</head>
+<body>
+<th:block th:replace="/fragments/navbar :: navbar('pizzas')"></th:block>
+<div class="container" th:object="${pizza}">
+    <h1 th:text="*{name}">Pizza</h1>
+    <hr/>
+    <div>
+        <dl>
+            <dt>Description</dt>
+            <dd th:text="*{description}"></dd>
+            <dt>Price</dt>
+            <dd th:text="*{price}"></dd>
+           
+        </dl>
+    </div>
+</div>
+
+</body>
+</html>
