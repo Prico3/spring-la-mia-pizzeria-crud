@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+    <title>Pizze</title>
+
 </head>
 <body>
-<h1>Pizzas</h1>
-<table>
-    <thead>
-    <th>Nome</th>
-    <th>Descrizione</th>
-    <th>Prezzo</th>
-    </thead>
+<div class="container">
+    <h1>Pizzas</h1>
+    <table class="table">
+        <thead>
+        <th>Nome</th>
+        <th>Descrizione</th>
+        <th>Prezzo</th>
+        </thead>
 
-    <tbody>
-    <tr th:each="pizza : ${list}" th:object="${pizza}">
-        <td th:text="*{name}"></td>
-        <td th:text="*{description}"></td>
-        <td th:text="*{price}"></td>
-    </tr>
-    </tbody>
+        <tbody>
+        <tr th:each="pizza : ${list}" th:object="${pizza}">
+            <td th:text="*{name}"></td>
+            <td th:text="*{description}"></td>
+            <td th:text="*{price}"></td>
+        </tr>
+        </tbody>
 
-</table>
+    </table>
+</div>
+
+
 </body>
 </html>

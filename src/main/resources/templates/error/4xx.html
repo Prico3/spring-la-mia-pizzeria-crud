@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+
+    <meta charset="UTF-8">
+    <title>Error [[${status}]]</title>
+</head>
+<body class="bg-warning text-light">
+<div class="container text-center">
+    <h1 class="mt-5">
+        <i class="fa-solid fa-triangle-exclamation"></i> Client error
+    </h1>
+    <p>
+        <a th:href="@{/}">Go back to home page</a>
+    </p>
+</div>
+<div th:if="${exception}">
+    <!-- only in dev mode -->
+    <p th:text="${exception}"></p>
+    <p th:text="${trace}"></p>
+</div>
+</body>
+</html>
