@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <th:block th:replace="/fragments/resources :: head"></th:block>
-    <title>Pizze</title>
+    <title>Pizzas</title>
 
 </head>
 <body>
@@ -15,13 +15,18 @@
         <th>Nome</th>
         <th>Descrizione</th>
         <th>Prezzo</th>
+        <th></th>
         </thead>
 
         <tbody>
         <tr th:each="pizza : ${list}" th:object="${pizza}">
             <td th:text="*{name}"></td>
             <td th:text="*{description}"></td>
-            <td th:text="*{price}"></td>
+            <td th:text="*{price}">€</td>
+            <td>
+                <a th:href="@{|/pizzas/*{id}|}" class="btn btn-danger btn-sm" title="detail"><i
+                        class="fa-solid fa-pizza-slice"></i></a>
+            </td>
         </tr>
         </tbody>
 
