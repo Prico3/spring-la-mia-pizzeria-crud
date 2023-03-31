@@ -9,7 +9,8 @@
 <th:block th:replace="/fragments/navbar :: navbar('pizzas')"></th:block>
 
 <div class="container">
-    <h1>Pizzas</h1>
+    <h1>Pizzas <a th:href="@{/pizzas/create}" class="btn btn-danger rounded-circle" title="add pizza"><i
+            class="fa-solid fa-plus"></i></a></h1>
     <table class="table">
         <thead>
         <th>Nome</th>
