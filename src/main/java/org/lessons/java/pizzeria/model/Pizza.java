@@ -1,6 +1,8 @@
 package org.lessons.java.pizzeria.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
@@ -11,10 +13,15 @@ public class Pizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
+    @NotEmpty
     private String name;
+    @NotEmpty
+
     @Lob
     private String description;
     @Column(nullable = false)
+    
+    @Positive
     private Integer price;
     private LocalDateTime cratedAt;
 
