@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+    <title>Edit Pizza</title>
+
+</head>
+<body>
+<th:block th:replace="/fragments/navbar :: navbar('pizzas')"></th:block>
+
+<div class="container">
+    <h1>Edit Pizza</h1>
+    <form id="pizza-form" method="post" th:object="${pizza}" th:action="@{|/pizzas/edit/*{id}|}"
+          class="row gy-3">
+        <!-- name -->
+        <div class="col-12">
+            <label class="form-label" for="title">Name*</label>
+            <input type="text" id="title" class="form-control" th:field="*{name}"
+                   th:errorClass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <!-- description -->
+        <div class="col-12">
+            <label class="form-label" for="description">Description*</label>
+            <textarea type="text" id="description" class="form-control" th:field="*{description}"
+                      th:errorClass="is-invalid"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- price -->
+        <div class="col-12">
+            <label class="form-label" for="price">Price*</label>
+            <input class="form-control" id="price" th:errorClass="is-invalid" th:field="*{price}"
+                   type="number">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <a class="btn btn-danger" th:href="@{/pizzas}">Cancel</a>
+            <button type="submit" class="btn btn-danger">Save</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
