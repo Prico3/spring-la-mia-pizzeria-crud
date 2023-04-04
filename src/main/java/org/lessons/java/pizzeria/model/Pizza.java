@@ -20,8 +20,9 @@ public class Pizza {
     @Lob
     private String description;
     @Column(nullable = false)
-    
+
     @Positive
+    
     private Integer price;
     private LocalDateTime cratedAt;
 

@@ -84,7 +84,13 @@ public class PizzaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Integer id, @ModelAttribute("pizza") Pizza formPizza) {
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+        //Validazioni
+        if (bindingResult.hasErrors()) {
+            //ricreo la view precompilata
+            return "/pizzas/edit";
+        }
+        //persisto la pizza
         try {
             Pizza updatePizza = pizzaService.updatePizza(formPizza, id);
             return "redirect:/pizzas/" + Integer.toString(updatePizza.getId());
