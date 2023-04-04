@@ -2,9 +2,8 @@ package org.lessons.java.pizzeria.controller;
 
 import jakarta.validation.Valid;
 import org.lessons.java.pizzeria.model.Pizza;
-import org.lessons.java.pizzeria.repository.PizzaRepository;
+import org.lessons.java.pizzeria.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,23 +11,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/pizzas")
 public class PizzaController {
+    //    @Autowired
+//    private PizzaRepository pizzaRepository;
     @Autowired
-    private PizzaRepository pizzaRepository;
+    private PizzaService pizzaService;
 
     @GetMapping
     public String index(Model model, @RequestParam(name = "q") Optional<String> keyword) {
         List<Pizza> pizzas;
         if (keyword.isEmpty()) {
-            pizzas = pizzaRepository.findAll(Sort.by("name"));
+            pizzas = pizzaService.getAllPizzas(keyword);
         } else {
-            pizzas = pizzaRepository.findByNameContainingIgnoreCase(keyword.get());
+            pizzas = pizzaService.getFilteredPizzas(keyword.get());
             model.addAttribute("keyword", keyword.get());
         }
         model.addAttribute("list", pizzas);
@@ -38,13 +38,23 @@ public class PizzaController {
 
     @GetMapping("/{pizzaId}")
     public String show(@PathVariable("pizzaId") Integer id, Model model) {
-        Optional<Pizza> result = pizzaRepository.findById(id);
-        if (result.isPresent()) {
-            model.addAttribute("pizza", result.get());
+        try {
+            Pizza pizza = pizzaService.getById(id);
+            model.addAttribute("pizza", pizza);
             return "pizzas/show";
-        } else {
+
+        } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza with id " + id + " not found");
+
         }
+//        Optional<Pizza> result = pizzaRepository.findById(id);
+//        if (result.isPresent()) {
+//            model.addAttribute("pizza", result.get());
+//            return "pizzas/show";
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza with id " + id + " not found");
+//        }
+
     }
 
     @GetMapping("/create")
@@ -58,12 +68,7 @@ public class PizzaController {
         if (bindingResult.hasErrors()) {
             return "pizzas/create";
         }
-        Pizza pizzaToPersist = new Pizza();
-        pizzaToPersist.setName(formPizza.getName());
-        pizzaToPersist.setPrice(formPizza.getPrice());
-        pizzaToPersist.setDescription(formPizza.getDescription());
-        pizzaToPersist.setCratedAt(LocalDateTime.now());
-        pizzaRepository.save(pizzaToPersist);
+        pizzaService.createPizza(formPizza);
         return "redirect:/pizzas";
     }
 }
