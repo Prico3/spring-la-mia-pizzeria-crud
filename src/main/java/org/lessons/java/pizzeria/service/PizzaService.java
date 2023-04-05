@@ -53,6 +53,9 @@ public class PizzaService {
 
     public boolean validName(Pizza pizzaToValidate) {
         //verifico se su sul DB esistte una pizza con lo stesso nome di pizzaToValidate
+        if (pizzaToValidate.getName() == null) {
+            return !pizzaRepository.existsByName(pizzaToValidate.getName());
+        }
         return !pizzaRepository.existsByNameAndIdNot(pizzaToValidate.getName(), pizzaToValidate.getId());
     }
 }
