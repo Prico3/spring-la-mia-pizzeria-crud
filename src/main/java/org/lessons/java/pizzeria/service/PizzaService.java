@@ -50,4 +50,9 @@ public class PizzaService {
             throw new RuntimeException("Pizza with id " + id + " not found");
         }
     }
+
+    public boolean validName(Pizza pizzaToValidate) {
+        //verifico se su sul DB esistte una pizza con lo stesso nome di pizzaToValidate
+        return !pizzaRepository.existsByNameAndIdNot(pizzaToValidate.getName(), pizzaToValidate.getId());
+    }
 }

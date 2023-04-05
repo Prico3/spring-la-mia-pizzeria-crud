@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -65,9 +66,19 @@ public class PizzaController {
 
     @PostMapping("/create")
     public String doCreate(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        //Validazione
+        boolean hasErrors = bindingResult.hasErrors();
+        //custom name validation
+        if (!pizzaService.validName(formPizza)) {
+            //aggiungo un errore al binding result
+            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null, "Esiste già una pizza con questo nome"));
+            hasErrors = true;
+        }
+        if (hasErrors) {
+            //ritorno la view con il form
             return "pizzas/create";
         }
+        //se non ci sono errori lo persisto
         pizzaService.createPizza(formPizza);
         return "redirect:/pizzas";
     }
@@ -86,6 +97,10 @@ public class PizzaController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
         //Validazioni
+        if (!pizzaService.validName(formPizza)) {
+            //aggiungo un errore al binding result
+            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null, "Esiste già una pizza con questo nome"));
+        }
         if (bindingResult.hasErrors()) {
             //ricreo la view precompilata
             return "/pizzas/edit";

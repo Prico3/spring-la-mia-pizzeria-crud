@@ -12,7 +12,7 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotEmpty
     private String name;
     @NotEmpty
@@ -22,7 +22,7 @@ public class Pizza {
     @Column(nullable = false)
 
     @Positive
-    
+
     private Integer price;
     private LocalDateTime cratedAt;
 
