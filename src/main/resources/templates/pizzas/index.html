@@ -11,6 +11,12 @@
 <div class="container">
     <h1>Pizzas <a th:href="@{/pizzas/create}" class="btn btn-danger rounded-circle" title="add pizza"><i
             class="fa-solid fa-plus"></i></a></h1>
+    <th:block th:if="${message}">
+        <div class="alert alert-info alert-dismissible fade show">
+            <div th:text="${message}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </th:block>
     <table class="table">
         <thead>
         <th>Nome</th>
@@ -29,6 +35,8 @@
                         class="fa-solid fa-pizza-slice"></i></a>
                 <a th:href="@{|/pizzas/edit/*{id}|}" class="btn btn-danger btn-sm" title="edit"><i
                         class="fa-solid fa-pen-to-square"></i></a>
+                <a th:href="@{|/pizzas/delete/*{id}|}" class="btn btn-danger btn-sm" title="edit"><i
+                        class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
         </tbody>

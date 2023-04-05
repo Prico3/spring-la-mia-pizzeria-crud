@@ -51,6 +51,16 @@ public class PizzaService {
         }
     }
 
+    public boolean deleteById(Integer id) {
+        pizzaRepository.findById(id).orElseThrow(() -> new RuntimeException(Integer.toString(id)));
+        try {
+            pizzaRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean validName(Pizza pizzaToValidate) {
         //verifico se su sul DB esistte una pizza con lo stesso nome di pizzaToValidate
         if (pizzaToValidate.getName() == null) {
